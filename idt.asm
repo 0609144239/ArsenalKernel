@@ -1,9 +1,10 @@
-isr_0:
+isr_0: ; Division  Error Fault
 	cli
 	push 0
 	jmp isr_basic
 
-isr_1:
+isr_1: ;
+
 	cli
 	push 1
 	jmp isr_basic
@@ -18,12 +19,12 @@ isr_3:
 	push 3
 	jmp isr_basic
 	
-isr_4:
+isr_4: ; Overflow Trap
 	cli
 	push 4
 	jmp isr_basic
 	
-isr_5:
+isr_5: ; Bound Execeeded Fault
 	cli
 	push 5
 	jmp isr_basic
@@ -38,7 +39,7 @@ isr_7:
 	push 7
 	jmp isr_basic
 	
-isr_8:
+isr_8: ; Double Fault Abort
 	cli
 	push 8
 	jmp isr_basic

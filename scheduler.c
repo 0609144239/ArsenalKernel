@@ -51,8 +51,8 @@ void scheduler(uint32_t eip, uint32_t edi,
     
     process *curr_process;
     
-    print(" EAX = ");
-    printi(eax);
+//    print(" EAX = ");
+//    printi(eax);
     
     curr_process = get_process(curr_sch_pid);
     next_process = get_next_process();

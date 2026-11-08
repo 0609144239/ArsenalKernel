@@ -21,7 +21,9 @@ kernel.img: $(BOOTSTRAP_FILE) $(INIT_KERNEL_FILES) $(KERNEL_FILES)
 	$(CC) $(KERNEL_FLAGS) screen.c -o screen.elf
 	$(CC) $(KERNEL_FLAGS) process.c -o process.elf
 	$(CC) $(KERNEL_FLAGS) scheduler.c -o scheduler.elf
-	$(LD) -Tlinker.ld starter.o kernel.elf screen.elf process.elf scheduler.elf -o ArsenalKernel.elf
+	$(CC) $(KERNEL_FLAGS) heap.c -o heap.elf
+	
+	$(LD) -Tlinker.ld starter.o kernel.elf screen.elf process.elf scheduler.elf heap.elf -o ArsenalKernel.elf
 	$(OBJCOPY) -O binary ArsenalKernel.elf ArsenalKernel.bin
 	dd if=bootstrap.o of=kernel.img
 	dd seek=1 conv=sync if=ArsenalKernel.bin of=kernel.img bs=512 count=5

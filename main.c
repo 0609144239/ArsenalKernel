@@ -3,6 +3,7 @@
 
 #include "scheduler.h"
 #include "screen.h"
+#include "heap.h"
 
 
 
@@ -18,11 +19,15 @@ process p1, p2, p3, p4;
 
 
 
+
+
 void kernel_main() {
     
     screen_init();
-    process_table_init();
-    scheduler_init();
+    heap_init();
+    uint32_t *page_directory = kalloc(4 * 1024);
+    //process_table_init();
+    //scheduler_init();
     
 	print( "Welcome to ArsenalKernal!" );
 	println();
@@ -31,10 +36,10 @@ void kernel_main() {
 	printi(42);
 	println();
     
-    process_create((uint32_t *)&process_A, &p1);
-    process_create((uint32_t *)&process_B, &p2);
-    process_create((uint32_t *)&process_C, &p3);
-    process_create((uint32_t *)&process_D, &p4);
+//    process_create((uint32_t *)&process_A, &p1);
+//    process_create((uint32_t *)&process_B, &p2);
+//    process_create((uint32_t *)&process_C, &p3);
+//    process_create((uint32_t *)&process_D, &p4);
     
 	
 	while( 1 );
@@ -43,10 +48,14 @@ void kernel_main() {
 
 
 
-void interrupt_handler(int interrupt_number) {
+void interrupt_handler(int interrupt_number, int error_code) {
 	println();
 	print("Interrupt Received ");
 	printi(interrupt_number);
+    println();
+    print("Error Code ");
+    printi(error_code);
+    
 }
 
 
