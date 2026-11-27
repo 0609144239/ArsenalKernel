@@ -3,6 +3,10 @@ extern kernel_main
 extern interrupt_handler
 extern scheduler
 extern run_next_process
+extern page_directory
+
+global load_page_directory
+global enable_paging
 
 start:
     mov ax, cs
@@ -46,12 +50,7 @@ setup_interrupts:
     
     ret
     
-load_task_register:
-    mov ax, 40d
-    ltr ax
-    
-    ret
-    
+
 remap_pic:
     mov al, 11h
     
@@ -109,20 +108,45 @@ load_idt:
     lidt [idtr - start]
     ret
     
+load_task_register:
+    mov ax, 40d
+    ltr ax
+    
+    ret
+    
+    
 bits 32
+load_page_directory:
+    mov eax, [page_directory]
+    mov cr3, eax
+    
+    ret
+    
+enable_paging:
+    mov eax, cr0
+    or eax, 80000000h
+    mov cr0, eax
+    
+    ret
+    
+
+    
+    
 start_kernel:
     mov eax, 10h
     mov ds, eax
     mov ss, eax
-    
+   
     mov eax, 0h
     mov es, eax
     mov fs, eax
     mov gs, eax
     
     sti
-    
     call kernel_main
+    
+    
+  
     
 %include "gdt.asm"
 %include "idt.asm"

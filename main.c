@@ -4,7 +4,7 @@
 #include "scheduler.h"
 #include "screen.h"
 #include "heap.h"
-
+#include "paging.h"
 
 
 //TODO:
@@ -23,9 +23,11 @@ process p1, p2, p3, p4;
 
 void kernel_main() {
     
-    screen_init();
     heap_init();
-    uint32_t *page_directory = kalloc(4 * 1024);
+    paging_init();
+    screen_init();
+   
+    //uint32_t *page_directory = kalloc(4 * 1024);
     //process_table_init();
     //scheduler_init();
     

@@ -56,3 +56,10 @@ void printi(uint32_t number)
         printi( remaining );
     }
 }
+
+
+//void scroll(void) {
+//    if (video[currLocation] > screenLen) {
+//        
+//    }
+//}

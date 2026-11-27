@@ -8,7 +8,8 @@ uint32_t heap_base;
 
 void heap_init(void) {
     
-    heap_base = 0x100000;
+    //heap_base = 0x100000;
+    heap_base = 0x400000;
     
 }
 

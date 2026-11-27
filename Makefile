@@ -22,16 +22,19 @@ kernel.img: $(BOOTSTRAP_FILE) $(INIT_KERNEL_FILES) $(KERNEL_FILES)
 	$(CC) $(KERNEL_FLAGS) process.c -o process.elf
 	$(CC) $(KERNEL_FLAGS) scheduler.c -o scheduler.elf
 	$(CC) $(KERNEL_FLAGS) heap.c -o heap.elf
+	$(CC) $(KERNEL_FLAGS) paging.c -o paging.elf
 	
-	$(LD) -Tlinker.ld starter.o kernel.elf screen.elf process.elf scheduler.elf heap.elf -o ArsenalKernel.elf
+	$(LD) -Tlinker.ld starter.o kernel.elf screen.elf process.elf scheduler.elf heap.elf paging.elf -o ArsenalKernel.elf
 	$(OBJCOPY) -O binary ArsenalKernel.elf ArsenalKernel.bin
 	dd if=bootstrap.o of=kernel.img
-	dd seek=1 conv=sync if=ArsenalKernel.bin of=kernel.img bs=512 count=5
-	dd seek=6 conv=sync if=/dev/zero of=kernel.img bs=512 count=2046
+	dd seek=1 conv=sync if=ArsenalKernel.bin of=kernel.img bs=512 count=50
+	dd seek=51 conv=sync if=/dev/zero of=kernel.img bs=512 count=2001
 
 run: kernel.img
 	#qemu-system-x86_64 -s -drive format=raw,file=kernel.img
 	qemu-system-x86_64 -s kernel.img -display cocoa,zoom-to-fit=on
+	#qemu-system-i386 -d int,cpu_reset -no-reboot -drive format=raw,file=kernel.img
+
 
 clean:
 	rm -f *.o *.elf *.bin *.img
